@@ -1,0 +1,54 @@
+# Tables
+## Organization
+#### A one to many relationship with users. Each user is registered to an Organization (maybe a better name later) and can have permissions based on roles
+- OrganizationId PK GUID
+- Name VARCHAR(50)
+- CreationDate DATETIME
+- Plan FK REFERENCES Plan.PlanId
+- isActive BIT
+
+## User
+#### A user is related to an organization. An email address must be unique per organization. For self/communit plans the oranization can be the user email
+- UserId PK GUID
+- OrganizationId FK
+- PasswordHash VARCHAR(MAX)
+- Role FK REFERENCES Roles.RoleId
+- CreatedDate DATETIME
+- isActive BIT
+
+## Accounts
+#### This is a financial Account (checking, saving, CD, Credit Card). Each Account belongs to an organization and will hold transactions
+- AccountId PK
+- OrganizationId FK
+- Name VARCHAR(25)
+- Type FK REFERENCES AccountType.TypeId
+- Balance decimal
+- CurrencyType VARCHAR(3)
+
+## Categories
+#### This can be custom for each org but there are some pre-defined categories (groceries, payroll, etc)
+- CategoryId PK
+- OrganizationId FK
+- Name VARCHAR(25)
+- Type FK REFERENCES 
+- isSystem BIT
+
+## Transactions
+#### This is the ledger. These are immutable
+- TransactionId PK
+- OrganizationId FK
+- AccountId FK
+- CategoryId FK
+- Amount DECIMAL
+- Description VARCHAR(150)
+- OccuredDate DATETIME
+- CreateDate DATETIME
+
+## Roles
+#### Filled in at a later date
+
+## Plan
+#### Filled in at a later date
+
+## AccountType
+#### Filled in at a later date
