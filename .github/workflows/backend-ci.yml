@@ -6,40 +6,40 @@ on:
     paths:
     - "backend/**"
 
-  concurrency:
-    group: backend-ci-${{ github.ref }}
-    cancel-in-progress: true
+concurrency:
+  group: backend-ci-${{ github.ref }}
+  cancel-in-progress: true
 
-  jobs:
-    build-and-test:
-      run-on: ubuntu-latest
+jobs:
+  build-and-test:
+    run-on: ubuntu-latest
 
-      defaults:
-        run:
-          working-directory: backend/core-ledger-api
+    defaults:
+      run:
+        working-directory: backend/core-ledger-api
 
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-        - name: Setup Node.js
-          uses: actions/setup-node@v4
-          with:
-            node-version: 20
-            cache: "npm"
-            cache-dependency-path: backend/core-ledger-api/package-lock.json
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: backend/core-ledger-api/package-lock.json
 
-        - name: Install Dependencies
-          run: npm ci
+      - name: Install Dependencies
+        run: npm ci
 
-        - name: Lint
-          run: npm run lint
+      - name: Lint
+        run: npm run lint
 
-        - name: Type Check
-          run: npm run build -- --noEmit
+      - name: Type Check
+        run: npm run build -- --noEmit
 
-        - name: Run Tests
-          run: npm test
+      - name: Run Tests
+        run: npm test
 
-        - name: Build
-          run: npm run build
+      - name: Build
+        run: npm run build
