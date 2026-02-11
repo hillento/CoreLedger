@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'frontend/**'
+      - 'frontend/core-ledger-ui/**'
 
 concurrency:
   group: frontend-ci-${{ github.ref }}
