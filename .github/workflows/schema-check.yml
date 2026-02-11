@@ -42,7 +42,8 @@ jobs:
         run: npx prisma validate
 
       - name: Check schema generates valid SQL
-        run: npx prisma migrate diff \
+        run: |
+          npx prisma migrate diff \
           --from-empty \
           --to-schema prisma/schema.prisma \
           --exit-code
