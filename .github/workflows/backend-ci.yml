@@ -36,7 +36,7 @@ jobs:
         run: npm run lint
 
       - name: Type Check
-        run: npm run build -- --noEmit
+        run: npm run build --noEmit
 
       - name: Run Tests
         run: npm test
