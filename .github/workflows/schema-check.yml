@@ -1,0 +1,42 @@
+name: schema-check
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "backend/core-ledger-api/prisma/**"
+
+concurrency:
+  group: schema-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  schema:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend/core-ledger-api
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: backend/core-ledger-api/package-lock.json
+
+      - name: Instll dependencies
+        run: npm ci
+
+      - name: Validate Prisma Schema
+        run: npx prisma validate
+
+      - name: Check schema generates valid SQL
+        run: npx prisma migrate diff \
+          --from-empty \
+          --to-schema prisma/schema.prisma \
+          --exit-code
