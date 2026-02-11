@@ -8,5 +8,6 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
+  //This comment is for a test
   protected readonly title = signal('core-ledger-ui');
 }
