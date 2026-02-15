@@ -10,5 +10,5 @@ A multi-tenant financial ledger system
 - Tenant-isolated data access
 - Immutable financial transactions
 - Role based authorization
-- Production leel CI/CD workflow
+- Production level CI/CD workflow
 
