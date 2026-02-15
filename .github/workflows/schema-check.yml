@@ -29,12 +29,6 @@ jobs:
           cache: "npm"
           cache-dependency-path: backend/core-ledger-api/package-lock.json
 
-      - name: Debug directory
-        run: |
-          pwd
-          ls -la
-
-
       - name: Instll dependencies
         run: npm ci
 
