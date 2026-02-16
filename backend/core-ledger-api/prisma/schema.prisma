@@ -1,1 +1,108 @@
-//test schema trigger
+datasource db {
+	provider = "postgresql"
+}
+
+generator client {
+	provider = "prisma-client-js"
+}
+
+model Tenant {
+	id			String		@id @default(uuid())
+	name			String
+	createdAt		DateTime	@default(now())
+
+	users 			User[]
+	accounts		Account[]
+	categories		Category[]
+	transactions		Transaction[]
+}
+
+model User {
+	id			String		@id @default(uuid())
+	tenantId		String
+	email			String
+	name			String?
+	createdAt		DateTime	@default(now())
+
+	tenant			Tenant		@relation(fields: [tenantId], references: [id])
+	roles			UserRole[]
+
+	@@unique([tenantId, email])
+}
+
+model Role {
+  id   				String 		@id @default(uuid())
+  name 				String 		@unique
+
+  users UserRole[]
+}
+
+
+model UserRole {
+  userId String
+  roleId String
+
+  user User @relation(fields: [userId], references: [id])
+  role Role @relation(fields: [roleId], references: [id])
+
+  @@id([userId, roleId])
+}
+
+model Account {
+	id			String		@id @default(uuid())
+	tenantId		String
+	name			String
+	createdAt		DateTime	@default(now())
+
+	tenant			Tenant		@relation(fields: [tenantId], references: [id])
+	transaction		Transaction[]
+	type			AccountType
+}
+
+model Category {
+	id			String		@id @default(uuid())
+	tenantId		String
+	name			String
+	type			CategoryType
+	isSystem		Boolean
+	createdAt		DateTime	@default(now())
+
+	tenant			Tenant		@relation(fields: [tenantId], references: [id])
+	transactions		Transaction[]
+
+	@@unique([tenantId, name])
+}
+
+model Transaction {
+	id			String		@id @default(uuid())
+	tenantId		String
+	accountId		String
+	categoryId		String
+
+	amountCents		BigInt
+	description		String?
+	occuredAt		DateTime
+	createdAt		DateTime	@default(now())
+
+
+	tenant			Tenant		@relation(fields: [tenantId], references: [id])
+	account			Account		@relation(fields: [accountId], references: [id])
+	category		Category	@relation(fields: [categoryId], references: [id])
+
+	@@index([tenantId, occuredAt])
+}
+
+enum AccountType {
+  ASSET
+  LIABILITY
+}
+
+enum CategoryType {
+  INCOME
+  EXPENSE
+  TRANSFER
+}
+
+
+
+
