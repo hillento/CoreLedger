@@ -4,7 +4,7 @@ What does this change do?
 ## Technical Approach
 Why was this approach chosen?
 
-## Trade-oofs
+## Trade-offs
 What alternatives were considered?
 
 ## Testing
